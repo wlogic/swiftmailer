@@ -13,6 +13,7 @@
  *
  * @author Chris Corbyn
  */
+#[AllowDynamicProperties]
 class Swift_EmbeddedFile extends Swift_Mime_EmbeddedFile
 {
     /**
@@ -26,11 +27,9 @@ class Swift_EmbeddedFile extends Swift_Mime_EmbeddedFile
      */
     public function __construct($data = null, $filename = null, $contentType = null)
     {
-        \call_user_func_array(
-            [$this, 'Swift_Mime_EmbeddedFile::__construct'],
-            Swift_DependencyContainer::getInstance()
-                ->createDependenciesFor('mime.embeddedfile')
-            );
+        parent::__construct(
+            ...Swift_DependencyContainer::getInstance()->createDependenciesFor('mime.embeddedfile')
+        );
 
         $this->setBody($data);
         $this->setFilename($filename);
